@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,6 +26,17 @@ export default function SignupPage() {
   const { toast } = useToast();
   const [role, setRole] = useState('student');
   const [loading, setLoading] = useState(false);
+  const [emailPlaceholder, setEmailPlaceholder] = useState('student@school.com');
+
+  useEffect(() => {
+    if (role === 'admin') {
+      setEmailPlaceholder('admin@school.com');
+    } else if (role === 'teacher') {
+      setEmailPlaceholder('teacher@school.com');
+    } else {
+      setEmailPlaceholder('student@school.com');
+    }
+  }, [role]);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,9 +61,6 @@ export default function SignupPage() {
       await updateProfile(userCredential.user, {
         displayName: fullName,
       });
-
-      // Here you would typically also save the user's role to your database (e.g., Firestore)
-      // For example: await setUserRoleInDB(userCredential.user.uid, role);
 
       toast({
         title: "Account Created",
@@ -124,7 +132,7 @@ export default function SignupPage() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="user@school.com"
+                placeholder={emailPlaceholder}
                 required
               />
             </div>

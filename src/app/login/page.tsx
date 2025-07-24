@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -37,6 +37,17 @@ export default function LoginPage() {
   const { toast } = useToast();
   const [role, setRole] = useState('admin');
   const [loading, setLoading] = useState(false);
+  const [emailPlaceholder, setEmailPlaceholder] = useState('admin@school.com');
+
+  useEffect(() => {
+    if (role === 'admin') {
+      setEmailPlaceholder('admin@school.com');
+    } else if (role === 'teacher') {
+      setEmailPlaceholder('teacher@school.com');
+    } else {
+      setEmailPlaceholder('student@school.com');
+    }
+  }, [role]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,8 +68,6 @@ export default function LoginPage() {
       } else if (role === 'student') {
         router.push('/student/dashboard');
       } else {
-        // Assuming teacher dashboard is at /teacher/dashboard
-        // You might need to create this page.
         router.push('/dashboard'); 
       }
     } catch (error) {
@@ -77,9 +86,6 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      // Note: With Google Sign-In, we don't know the role.
-      // A more robust solution would store roles in Firestore.
-      // For now, we'll redirect based on the selected radio button.
       if (role === 'admin') {
         router.push('/dashboard');
       } else if (role === 'student') {
@@ -135,7 +141,7 @@ export default function LoginPage() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="admin@school.com"
+                placeholder={emailPlaceholder}
                 required
               />
             </div>
