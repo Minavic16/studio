@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { auth } from '@/lib/firebase';
 import { updateProfile } from 'firebase/auth';
@@ -35,6 +35,9 @@ export default function ProfilePage() {
   const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -53,11 +56,32 @@ export default function ProfilePage() {
     return name.substring(0, 2);
   }
 
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+        // TODO: Add firebase storage upload logic here
+        toast({
+            title: "Photo Ready",
+            description: "Click 'Save Changes' to update your profile photo.",
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
   const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
     if (!user) return;
     setIsSubmitting(true);
     try {
-      await updateProfile(user, { displayName: data.displayName });
+      await updateProfile(user, { 
+          displayName: data.displayName,
+          // In a real app, you'd upload the photo to Firebase Storage and get a URL
+          photoURL: photoPreview || user.photoURL 
+      });
       toast({
         title: "Success",
         description: "Your profile has been updated successfully.",
@@ -98,14 +122,24 @@ export default function ProfilePage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                  <div className="flex items-center space-x-4">
                     <Avatar className="h-24 w-24">
-                        <AvatarImage src={user?.photoURL ?? ''} alt={user?.displayName ?? ''} />
+                        <AvatarImage src={photoPreview ?? user?.photoURL ?? ''} alt={user?.displayName ?? ''} />
                         <AvatarFallback className="text-3xl">
                            {user?.photoURL ? getInitials(user.displayName) : <UserIcon className="h-10 w-10"/>}
                         </AvatarFallback>
                     </Avatar>
-                    <div>
-                        <Button type="button" variant="outline">Change Photo</Button>
-                        <p className="text-xs text-muted-foreground mt-2">JPG, GIF or PNG. 1MB max.</p>
+                    <div className="flex flex-col gap-2">
+                        <h2 className="text-xl font-semibold">{user?.displayName}</h2>
+                        <div>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handlePhotoChange}
+                                className="hidden"
+                                accept="image/png, image/jpeg, image/gif"
+                            />
+                            <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>Change Photo</Button>
+                            <p className="text-xs text-muted-foreground mt-2">JPG, GIF or PNG. 1MB max.</p>
+                        </div>
                     </div>
                 </div>
 
