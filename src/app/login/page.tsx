@@ -1,5 +1,7 @@
+
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,8 +16,10 @@ import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/logo';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import Link from 'next/link';
 
 function GoogleIcon() {
   return (
@@ -31,17 +35,58 @@ function GoogleIcon() {
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const [role, setRole] = useState('admin');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push('/dashboard');
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to your dashboard...",
+      });
+      
+      if (role === 'admin') {
+        router.push('/dashboard');
+      } else if (role === 'student') {
+        router.push('/student/dashboard');
+      } else {
+        // Assuming teacher dashboard is at /teacher/dashboard
+        // You might need to create this page.
+        router.push('/dashboard'); 
+      }
+    } catch (error) {
+      console.error("Error signing in: ", error);
+      toast({
+        title: "Error",
+        description: "Invalid email or password. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+        setLoading(false);
+    }
   };
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      router.push('/dashboard');
+      // Note: With Google Sign-In, we don't know the role.
+      // A more robust solution would store roles in Firestore.
+      // For now, we'll redirect based on the selected radio button.
+      if (role === 'admin') {
+        router.push('/dashboard');
+      } else if (role === 'student') {
+        router.push('/student/dashboard');
+      } else {
+        router.push('/dashboard'); 
+      }
     } catch (error) {
       console.error("Error signing in with Google: ", error);
       toast({
@@ -68,9 +113,27 @@ export default function LoginPage() {
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
+                <Label>I am a...</Label>
+                <RadioGroup defaultValue="admin" value={role} onValueChange={setRole} className="flex gap-4">
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="admin" id="r-admin" />
+                        <Label htmlFor="r-admin">Administrator</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="teacher" id="r-teacher" />
+                        <Label htmlFor="r-teacher">Teacher</Label>
+                    </div>
+                     <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="student" id="r-student" />
+                        <Label htmlFor="r-student">Student</Label>
+                    </div>
+                </RadioGroup>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="admin@school.com"
                 required
@@ -86,10 +149,10 @@ export default function LoginPage() {
                   Forgot password?
                 </a>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Sign In
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
           <div className="relative my-6">
@@ -110,9 +173,9 @@ export default function LoginPage() {
         <CardFooter className="flex justify-center text-sm">
           <p>
             Don&apos;t have an account?{' '}
-            <a href="#" className="underline">
+            <Link href="/signup" className="underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </Card>
