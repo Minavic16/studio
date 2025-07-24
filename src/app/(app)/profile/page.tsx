@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/components/auth-provider';
 import { auth } from '@/lib/firebase';
 import { updateProfile } from 'firebase/auth';
@@ -42,19 +42,29 @@ export default function ProfilePage() {
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    values: {
-      displayName: user?.displayName || "",
-      email: user?.email || "",
+    defaultValues: {
+      displayName: "",
+      email: "",
     },
   });
+  
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        displayName: user.displayName || "",
+        email: user.email || "",
+      });
+    }
+  }, [user, form.reset]);
+
 
   const getInitials = (name?: string | null) => {
     if (!name) return "";
     const names = name.split(' ');
-    if (names.length > 1) {
+    if (names.length > 1 && names[0] && names[names.length - 1]) {
       return names[0][0] + names[names.length - 1][0];
     }
-    return name.substring(0, 2);
+    return name.substring(0, 2).toUpperCase();
   }
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +73,6 @@ export default function ProfilePage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
-        // TODO: Add firebase storage upload logic here
         toast({
             title: "Photo Ready",
             description: "Click 'Save Changes' to update your profile photo.",
@@ -81,7 +90,6 @@ export default function ProfilePage() {
     try {
       await updateProfile(user, { 
           displayName: data.displayName,
-          // In a real app, you'd upload the photo to Firebase Storage and get a URL
           photoURL: photoPreview || user.photoURL 
       });
       toast({
@@ -128,11 +136,11 @@ export default function ProfilePage() {
                     <Avatar className="h-24 w-24">
                         <AvatarImage src={photoPreview ?? user?.photoURL ?? ''} alt={user?.displayName ?? ''} />
                         <AvatarFallback className="text-3xl">
-                           {user?.photoURL ? getInitials(user.displayName) : <UserIcon className="h-10 w-10"/>}
+                           {getInitials(user?.displayName) || <UserIcon className="h-10 w-10"/>}
                         </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-2">
-                        <h2 className="text-xl font-semibold">{user?.displayName}</h2>
+                        <h2 className="text-xl font-semibold">{user?.displayName || 'User'}</h2>
                         <div>
                             <input
                                 type="file"
