@@ -68,7 +68,7 @@ export default function LoginPage() {
       } else if (role === 'student') {
         router.push('/student/dashboard');
       } else {
-        router.push('/dashboard'); 
+        router.push('/teacher/dashboard'); 
       }
     } catch (error) {
       console.error("Error signing in: ", error);
@@ -91,7 +91,7 @@ export default function LoginPage() {
       } else if (role === 'student') {
         router.push('/student/dashboard');
       } else {
-        router.push('/dashboard'); 
+        router.push('/teacher/dashboard'); 
       }
     } catch (error) {
       console.error("Error signing in with Google: ", error);
