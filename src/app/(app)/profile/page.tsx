@@ -22,7 +22,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User as UserIcon } from 'lucide-react';
+import { User as UserIcon, CheckCircle } from 'lucide-react';
 
 const profileFormSchema = z.object({
   displayName: z.string().min(2, { message: "Name must be at least 2 characters." }).max(50, { message: "Name must not be longer than 50 characters." }),
@@ -35,6 +35,7 @@ export default function ProfilePage() {
   const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -76,6 +77,7 @@ export default function ProfilePage() {
   const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
     if (!user) return;
     setIsSubmitting(true);
+    setIsSaved(false);
     try {
       await updateProfile(user, { 
           displayName: data.displayName,
@@ -86,6 +88,8 @@ export default function ProfilePage() {
         title: "Success",
         description: "Your profile has been updated successfully.",
       });
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
     } catch (error) {
       console.error("Error updating profile:", error);
       toast({
@@ -159,8 +163,8 @@ export default function ProfilePage() {
                     <Input id="role" type="text" value="Administrator" disabled />
                 </div>
                 
-                <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Saving..." : "Save Changes"}
+                <Button type="submit" disabled={isSubmitting || isSaved}>
+                    {isSubmitting ? "Saving..." : isSaved ? <><CheckCircle className="mr-2"/> Saved!</> : "Save Changes"}
                 </Button>
             </form>
           )}
