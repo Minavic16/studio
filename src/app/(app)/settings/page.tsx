@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { auth } from "@/lib/firebase";
 import { updateProfile } from "firebase/auth";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTheme } from "next-themes";
@@ -29,7 +29,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Moon, Sun } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Moon, Sun, Trash } from "lucide-react";
 
 const profileFormSchema = z.object({
   displayName: z.string().min(2, { message: "Name must be at least 2 characters." }).max(50, { message: "Name must not be longer than 50 characters." }),
@@ -38,18 +39,34 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
+const gradingScaleSchema = z.object({
+  grades: z.array(z.object({
+    grade: z.string().min(1, { message: "Grade cannot be empty." }),
+    minScore: z.coerce.number().min(0).max(100),
+    maxScore: z.coerce.number().min(0).max(100),
+  })),
+});
+
+type GradingScaleFormValues = z.infer<typeof gradingScaleSchema>;
+
+const promotionCriteriaSchema = z.object({
+    criteria: z.string().min(10, { message: "Criteria must be at least 10 characters." }),
+});
+
+type PromotionCriteriaFormValues = z.infer<typeof promotionCriteriaSchema>;
+
+
 export default function SettingsPage() {
   const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingProfile, setIsSubmittingProfile] = useState(false);
+  const [isSubmittingGrades, setIsSubmittingGrades] = useState(false);
+  const [isSubmittingCriteria, setIsSubmittingCriteria] = useState(false);
+
   const { theme, setTheme, systemTheme } = useTheme();
 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ProfileFormValues>({
+  const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     values: {
       displayName: user?.displayName || "",
@@ -57,9 +74,35 @@ export default function SettingsPage() {
     },
   });
 
-  const onSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
+  const gradingForm = useForm<GradingScaleFormValues>({
+    resolver: zodResolver(gradingScaleSchema),
+    defaultValues: {
+        grades: [
+            { grade: 'A', minScore: 70, maxScore: 100 },
+            { grade: 'B', minScore: 60, maxScore: 69 },
+            { grade: 'C', minScore: 50, maxScore: 59 },
+            { grade: 'D', minScore: 45, maxScore: 49 },
+            { grade: 'F', minScore: 0, maxScore: 44 },
+        ]
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: gradingForm.control,
+    name: "grades",
+  });
+
+  const promotionForm = useForm<PromotionCriteriaFormValues>({
+    resolver: zodResolver(promotionCriteriaSchema),
+    defaultValues: {
+        criteria: 'A student must have an average score of 50% or more to be promoted to the next class. Also, a student must pass Mathematics and English language.'
+    }
+  });
+
+
+  const onProfileSubmit: SubmitHandler<ProfileFormValues> = async (data) => {
     if (!user) return;
-    setIsSubmitting(true);
+    setIsSubmittingProfile(true);
     try {
       await updateProfile(user, { displayName: data.displayName });
       toast({
@@ -74,9 +117,34 @@ export default function SettingsPage() {
         variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsSubmittingProfile(false);
     }
   };
+
+  const onGradesSubmit: SubmitHandler<GradingScaleFormValues> = async (data) => {
+    setIsSubmittingGrades(true);
+    console.log(data);
+    // TODO: Save to database
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    toast({
+        title: "Success",
+        description: "Grading scale saved successfully.",
+    });
+    setIsSubmittingGrades(false);
+  }
+
+  const onCriteriaSubmit: SubmitHandler<PromotionCriteriaFormValues> = async (data) => {
+    setIsSubmittingCriteria(true);
+    console.log(data);
+    // TODO: Save to database
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    toast({
+        title: "Success",
+        description: "Promotion criteria saved successfully.",
+    });
+    setIsSubmittingCriteria(false);
+  }
+
 
   const handleThemeChange = (selectedTheme: string) => {
     setTheme(selectedTheme);
@@ -101,20 +169,20 @@ export default function SettingsPage() {
               <Skeleton className="h-10 w-1/4" />
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="displayName">Name</Label>
-                <Input id="displayName" {...register("displayName")} />
-                {errors.displayName && (
-                  <p className="text-sm text-destructive">{errors.displayName.message}</p>
+                <Input id="displayName" {...profileForm.register("displayName")} />
+                {profileForm.formState.errors.displayName && (
+                  <p className="text-sm text-destructive">{profileForm.formState.errors.displayName.message}</p>
                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" {...register("email")} disabled />
+                <Input id="email" type="email" {...profileForm.register("email")} disabled />
               </div>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : "Save Changes"}
+              <Button type="submit" disabled={isSubmittingProfile}>
+                {isSubmittingProfile ? "Saving..." : "Save Changes"}
               </Button>
             </form>
           )}
@@ -160,6 +228,54 @@ export default function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+      
+      <Card>
+        <CardHeader>
+            <CardTitle>Academic Settings</CardTitle>
+            <CardDescription>
+                Define grading scales and promotion criteria for the school.
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+            <div>
+                <Label>Grading Scale</Label>
+                <p className="text-sm text-muted-foreground">Set the score ranges for each grade.</p>
+                <form onSubmit={gradingForm.handleSubmit(onGradesSubmit)} className="mt-4 space-y-4">
+                    {fields.map((field, index) => (
+                        <div key={field.id} className="flex items-center gap-2">
+                            <Input {...gradingForm.register(`grades.${index}.grade`)} placeholder="Grade (e.g. A)" className="w-20"/>
+                            <Input type="number" {...gradingForm.register(`grades.${index}.minScore`)} placeholder="Min Score" className="w-24"/>
+                            <span>-</span>
+                            <Input type="number" {...gradingForm.register(`grades.${index}.maxScore`)} placeholder="Max Score" className="w-24"/>
+                            <Button type="button" variant="ghost" size="icon" onClick={() => remove(index)}>
+                                <Trash className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ))}
+                    <Button type="button" variant="outline" size="sm" onClick={() => append({ grade: '', minScore: 0, maxScore: 0})}>Add Grade</Button>
+                    <div className="flex justify-start">
+                        <Button type="submit" disabled={isSubmittingGrades}>
+                             {isSubmittingGrades ? "Saving..." : "Save Grading Scale"}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <Label>Promotion Criteria</Label>
+                <p className="text-sm text-muted-foreground">Define the rules for promoting students to the next class.</p>
+                <form onSubmit={promotionForm.handleSubmit(onCriteriaSubmit)} className="mt-4 space-y-4">
+                     <Textarea {...promotionForm.register('criteria')} rows={4} />
+                      {promotionForm.formState.errors.criteria && (
+                        <p className="text-sm text-destructive">{promotionForm.formState.errors.criteria.message}</p>
+                    )}
+                     <Button type="submit" disabled={isSubmittingCriteria}>
+                        {isSubmittingCriteria ? "Saving..." : "Save Criteria"}
+                     </Button>
+                </form>
+            </div>
+        </CardContent>
+      </Card>
+
     </div>
   );
 }
