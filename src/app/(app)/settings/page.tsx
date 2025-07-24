@@ -9,6 +9,8 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Moon, Sun, Trash } from "lucide-react";
+import { Moon, Sun, Trash, LogOut } from "lucide-react";
 
 const profileFormSchema = z.object({
   displayName: z.string().min(2, { message: "Name must be at least 2 characters." }).max(50, { message: "Name must not be longer than 50 characters." }),
@@ -59,6 +61,7 @@ type PromotionCriteriaFormValues = z.infer<typeof promotionCriteriaSchema>;
 export default function SettingsPage() {
   const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const [isSubmittingProfile, setIsSubmittingProfile] = useState(false);
   const [isSubmittingGrades, setIsSubmittingGrades] = useState(false);
   const [isSubmittingCriteria, setIsSubmittingCriteria] = useState(false);
@@ -148,6 +151,11 @@ export default function SettingsPage() {
 
   const handleThemeChange = (selectedTheme: string) => {
     setTheme(selectedTheme);
+  };
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    router.push('/login');
   };
   
   const currentTheme = theme === 'system' ? systemTheme : theme;
@@ -276,6 +284,20 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Account</CardTitle>
+          <CardDescription>
+            Manage your account settings.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="destructive" onClick={handleLogout}>
+            <LogOut className="mr-2" />
+            Log Out
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
