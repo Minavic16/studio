@@ -62,14 +62,7 @@ export default function LoginPage() {
         title: "Login Successful",
         description: "Redirecting to your dashboard...",
       });
-      
-      if (role === 'admin') {
-        router.push('/dashboard');
-      } else if (role === 'student') {
-        router.push('/student/dashboard');
-      } else {
-        router.push('/teacher/dashboard'); 
-      }
+      router.push('/dashboard');
     } catch (error) {
       console.error("Error signing in: ", error);
       toast({
@@ -86,13 +79,7 @@ export default function LoginPage() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      if (role === 'admin') {
-        router.push('/dashboard');
-      } else if (role === 'student') {
-        router.push('/student/dashboard');
-      } else {
-        router.push('/teacher/dashboard'); 
-      }
+      router.push('/dashboard');
     } catch (error) {
       console.error("Error signing in with Google: ", error);
       toast({
