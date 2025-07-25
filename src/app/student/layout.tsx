@@ -5,39 +5,31 @@ import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, S
 import { Logo } from "@/components/logo";
 import {
   LayoutDashboard,
-  Users,
-  UserCheck,
-  School,
-  CalendarCheck,
-  ClipboardList,
+  UserCircle,
+  Book,
   GraduationCap,
+  ClipboardList,
   CreditCard,
-  BarChart3,
   Settings,
   Bell,
   Search,
 } from "lucide-react";
-import { Chatbot } from "@/components/chatbot";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-
 const menuItems = [
-  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/students", icon: Users, label: "Students" },
-  { href: "/teachers", icon: UserCheck, label: "Teachers" },
-  { href: "/classes", icon: School, label: "Classes & Subjects" },
-  { href: "/attendance", icon: CalendarCheck, label: "Attendance" },
-  { href: "/timetable", icon: ClipboardList, label: "Timetable" },
-  { href: "/exams", icon: GraduationCap, label: "Exams & Results" },
-  { href: "/payments", icon: CreditCard, label: "Fees & Payments" },
-  { href: "/reports", icon: BarChart3, label: "Reports" },
+  { href: "/student/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { href: "/student/profile", icon: UserCircle, label: "My Profile" },
+  { href: "/student/courses", icon: Book, label: "My Courses" },
+  { href: "/student/results", icon: GraduationCap, label: "My Results" },
+  { href: "/student/timetable", icon: ClipboardList, label: "Timetable" },
+  { href: "/student/payments", icon: CreditCard, label: "Fee Payments" },
 ];
 
-function AppHeaderContent() {
+function StudentHeaderContent() {
     return (
         <>
             <div className="md:hidden">
@@ -57,14 +49,14 @@ function AppHeaderContent() {
                 <span className="sr-only">Toggle notifications</span>
                 </Button>
                 <Avatar className="h-9 w-9">
-                    <AvatarFallback>AD</AvatarFallback>
+                    <AvatarFallback>ST</AvatarFallback>
                 </Avatar>
             </div>
         </>
     )
 }
 
-export default function AppLayout({
+export default function StudentLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -99,7 +91,7 @@ export default function AppLayout({
               <SidebarFooter>
                  <SidebarMenu>
                      <SidebarMenuItem>
-                        <Link href="/settings" legacyBehavior passHref>
+                        <Link href="/student/settings" legacyBehavior passHref>
                             <SidebarMenuButton tooltip="Settings">
                                 <Settings />
                                 <span>Settings</span>
@@ -111,14 +103,13 @@ export default function AppLayout({
             </Sidebar>
             <SidebarInset className="flex flex-col flex-1">
               <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 sm:px-6">
-                 <AppHeaderContent />
+                 <StudentHeaderContent />
               </header>
               <main className="flex-1 overflow-auto p-4 sm:p-6">
                 {children}
               </main>
             </SidebarInset>
           </div>
-          <Chatbot />
         </SidebarProvider>
       </ThemeProvider>
   );
