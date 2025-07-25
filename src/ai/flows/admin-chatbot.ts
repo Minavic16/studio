@@ -24,7 +24,7 @@ const prompt = ai.definePrompt({
   name: 'adminChatbotPrompt',
   input: {schema: AdminChatbotInputSchema},
   output: {schema: AdminChatbotOutputSchema},
-  prompt: `You are an AI chatbot designed to answer frequently asked questions from administrators about the NestEdge school management system.
+  prompt: `You are an AI chatbot designed to answer frequently asked questions from administrators about the NestEdge School Management Engine.
 
 You can also provide onboarding support to new users.
 

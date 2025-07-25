@@ -7,7 +7,7 @@ export function Logo({ className, showText = true }: { className?: string; showT
       <div className="bg-primary rounded-lg p-2">
         <GraduationCap className="h-6 w-6 text-primary-foreground" />
       </div>
-      {showText && <span className='text-primary'>NestEdge</span>}
+      {showText && <span className='text-primary'>NestEdge School Management Engine</span>}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'NestEdge: Streamlined Education',
+  title: 'NestEdge School Management Engine: Streamlined Education',
   description: 'A comprehensive school operations platform.',
 };
 

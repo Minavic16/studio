@@ -26,7 +26,7 @@ export function Chatbot() {
     setIsOpen((prev) => !prev);
     if (!isOpen) {
       setMessages([
-        { role: "bot", content: "Hello! I'm the NestEdge AI assistant. How can I help you with the system today?" },
+        { role: "bot", content: "Hello! I'm the NestEdge School Management Engine AI assistant. How can I help you with the system today?" },
       ]);
     }
   };
@@ -83,7 +83,7 @@ export function Chatbot() {
               </div>
               <div>
                 <CardTitle>AI Assistant</CardTitle>
-                <CardDescription>Ask me anything about NestEdge.</CardDescription>
+                <CardDescription>Ask me anything about NestEdge School Management Engine.</CardDescription>
               </div>
             </div>
             <Button variant="ghost" size="icon" onClick={handleToggle}>
