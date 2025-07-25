@@ -12,17 +12,21 @@ import {
   CreditCard,
   BarChart3,
   Settings,
-  User,
   Bell,
   Search,
+  LogOut,
 } from "lucide-react";
-import { UserNav } from "@/components/user-nav";
 import { Chatbot } from "@/components/chatbot";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AuthProvider } from "@/components/auth-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { useAuth } from "@/components/auth-provider";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 
 const menuItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -35,6 +39,54 @@ const menuItems = [
   { href: "/payments", icon: CreditCard, label: "Fees & Payments" },
   { href: "/reports", icon: BarChart3, label: "Reports" },
 ];
+
+function AppHeaderContent() {
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await auth.signOut();
+        router.push('/login');
+    };
+
+    const getInitials = (name?: string | null) => {
+        if (!name) return "";
+        const names = name.split(' ');
+        if (names.length > 1 && names[0] && names[names.length - 1]) {
+        return names[0][0] + names[names.length - 1][0];
+        }
+        return name.substring(0, 2).toUpperCase();
+    }
+
+
+    return (
+        <>
+            <div className="md:hidden">
+                <SidebarTrigger />
+            </div>
+            <div className="relative flex-1">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                type="search"
+                placeholder="Search..."
+                className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+                />
+            </div>
+            <div className="flex items-center gap-4">
+                <Button variant="ghost" size="icon" className="rounded-full">
+                <Bell className="h-5 w-5" />
+                <span className="sr-only">Toggle notifications</span>
+                </Button>
+                { !loading && user &&
+                    <Avatar className="h-9 w-9">
+                        <AvatarImage src={user.photoURL ?? ''} alt={user.displayName ?? ''} data-ai-hint="user avatar" />
+                        <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
+                    </Avatar>
+                }
+            </div>
+        </>
+    )
+}
 
 export default function AppLayout({
   children,
@@ -84,24 +136,7 @@ export default function AppLayout({
             </Sidebar>
             <SidebarInset className="flex flex-col flex-1">
               <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 sm:px-6">
-                <div className="md:hidden">
-                  <SidebarTrigger />
-                </div>
-                <div className="relative flex-1">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search..."
-                    className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                  />
-                </div>
-                <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    <Bell className="h-5 w-5" />
-                    <span className="sr-only">Toggle notifications</span>
-                  </Button>
-                  <UserNav />
-                </div>
+                 <AppHeaderContent />
               </header>
               <main className="flex-1 overflow-auto p-4 sm:p-6">
                 {children}
