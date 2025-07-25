@@ -79,14 +79,6 @@ export default function AppLayout({
                             </SidebarMenuButton>
                         </Link>
                     </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <Link href="/profile" legacyBehavior passHref>
-                            <SidebarMenuButton tooltip="Profile">
-                                <User />
-                                <span>Profile</span>
-                            </SidebarMenuButton>
-                        </Link>
-                    </SidebarMenuItem>
                  </SidebarMenu>
               </SidebarFooter>
             </Sidebar>

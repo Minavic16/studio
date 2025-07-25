@@ -38,10 +38,10 @@ export function UserNav() {
   const getInitials = (name?: string | null) => {
     if (!name) return "";
     const names = name.split(' ');
-    if (names.length > 1) {
+    if (names.length > 1 && names[0] && names[names.length - 1]) {
       return names[0][0] + names[names.length - 1][0];
     }
-    return name.substring(0, 2);
+    return name.substring(0, 2).toUpperCase();
   }
 
   return (
@@ -65,7 +65,7 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href="/profile">
+          <Link href="/settings">
             <DropdownMenuItem>
               <UserIcon className="mr-2 h-4 w-4" />
               <span>Profile</span>
