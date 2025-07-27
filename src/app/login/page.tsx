@@ -6,12 +6,14 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import { useRouter } from 'next/navigation';
 import { School, User, UserCog } from 'lucide-react';
+import Link from 'next/link';
 
 export default function RoleSelectionPage() {
   const router = useRouter();
@@ -57,6 +59,14 @@ export default function RoleSelectionPage() {
             Login as Student
           </Button>
         </CardContent>
+        <CardFooter className="flex-col gap-2 text-center text-sm">
+          <p>
+            New student?{' '}
+            <Link href="/student/register" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Register here
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
