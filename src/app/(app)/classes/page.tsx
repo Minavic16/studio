@@ -47,18 +47,29 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const initialClassesData = [
-    { id: 'CLS-001', name: 'JSS 1A', studentCount: 35, formTeacher: 'Mr. John Adeolu' },
-    { id: 'CLS-002', name: 'JSS 2B', studentCount: 40, formTeacher: 'Mrs. Funke Adewale' },
-    { id: 'CLS-003', name: 'SSS 1C', studentCount: 38, formTeacher: 'Mr. Chidi Okoro' },
-    { id: 'CLS-004', name: 'SSS 3A', studentCount: 32, formTeacher: 'Mr. Emeka Obi' },
+    { id: 'CLS-001', name: '9A', studentCount: 3, formTeacher: 'Mr. Alan Grant' },
+    { id: 'CLS-002', name: '9B', studentCount: 3, formTeacher: 'Ms. Eleanor Vance' },
+    { id: 'CLS-003', name: '9C', studentCount: 3, formTeacher: 'Mrs. Katherine Reed' },
+    { id: 'CLS-004', name: '9D', studentCount: 1, formTeacher: 'Ms. Chloe Foster' },
 ];
 
 const initialSubjectsData = [
-    { id: 'SUB-001', name: 'Mathematics', teacherCount: 5 },
-    { id: 'SUB-002', name: 'English Language', teacherCount: 4 },
-    { id: 'SUB-003', name: 'Basic Science', teacherCount: 3 },
-    { id: 'SUB-004', name: 'Social Studies', teacherCount: 3 },
-    { id: 'SUB-005', name: 'Chemistry', teacherCount: 2 },
+    { id: 'SUB-001', name: 'Algebra I', teacher: 'Mr. Alan Grant' },
+    { id: 'SUB-002', name: 'English Literature', teacher: 'Ms. Eleanor Vance' },
+    { id: 'SUB-003', name: 'World History', teacher: 'Mrs. Katherine Reed' },
+    { id: 'SUB-004', name: 'Biology', teacher: 'Mr. David Miller' },
+    { id: 'SUB-005', name: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+    { id: 'SUB-006', name: 'Computer Science', teacher: 'Ms. Chloe Foster' },
+    { id: 'SUB-007', name: 'Physical Education', teacher: 'Coach Brian Murphy' },
+    { id: 'SUB-008', name: 'Art & Design', teacher: 'Ms. Julia Rossi' },
+    { id: 'SUB-009', name: 'Spanish I', teacher: 'Señora Maria Torres' },
+    { id: 'SUB-010', name: 'Music Theory', teacher: 'Mr. Leo Johnson' },
+];
+
+const teachers = [
+    'Mr. Alan Grant', 'Ms. Eleanor Vance', 'Mrs. Katherine Reed', 'Mr. David Miller',
+    'Dr. Evelyn Shaw', 'Ms. Chloe Foster', 'Coach Brian Murphy', 'Ms. Julia Rossi',
+    'Señora Maria Torres', 'Mr. Leo Johnson'
 ];
 
 export default function ClassesPage() {
@@ -86,7 +97,7 @@ export default function ClassesPage() {
         const newSubject = {
             id: `SUB-${String(subjects.length + 1).padStart(3, '0')}`,
             name: formData.get('subjectName') as string,
-            teacherCount: 0,
+            teacher: 'Unassigned',
         };
         setSubjects([...subjects, newSubject]);
         setSubjectDialogOpen(false);
@@ -120,7 +131,7 @@ export default function ClassesPage() {
                                 <div className="grid gap-4 py-4">
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="className" className="text-right">Class Name</Label>
-                                        <Input id="className" name="className" className="col-span-3" placeholder="e.g. JSS 1A" required/>
+                                        <Input id="className" name="className" className="col-span-3" placeholder="e.g. 9A" required/>
                                     </div>
                                     <div className="grid grid-cols-4 items-center gap-4">
                                         <Label htmlFor="formTeacher" className="text-right">Form Teacher</Label>
@@ -129,11 +140,7 @@ export default function ClassesPage() {
                                                 <SelectValue placeholder="Assign a teacher" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Mr. John Adeolu">Mr. John Adeolu</SelectItem>
-                                                <SelectItem value="Mrs. Funke Adewale">Mrs. Funke Adewale</SelectItem>
-                                                <SelectItem value="Mr. Chidi Okoro">Mr. Chidi Okoro</SelectItem>
-                                                <SelectItem value="Mrs. Aisha Bello">Mrs. Aisha Bello</SelectItem>
-                                                <SelectItem value="Mr. Emeka Obi">Mr. Emeka Obi</SelectItem>
+                                                {teachers.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -210,7 +217,7 @@ export default function ClassesPage() {
                     <TableHeader>
                         <TableRow>
                             <TableHead>Subject Name</TableHead>
-                            <TableHead>No. of Teachers</TableHead>
+                            <TableHead>Teacher</TableHead>
                             <TableHead><span className="sr-only">Actions</span></TableHead>
                         </TableRow>
                     </TableHeader>
@@ -218,7 +225,7 @@ export default function ClassesPage() {
                         {subjects.map((s) => (
                             <TableRow key={s.id}>
                                 <TableCell className="font-medium">{s.name}</TableCell>
-                                <TableCell>{s.teacherCount}</TableCell>
+                                <TableCell>{s.teacher}</TableCell>
                                 <TableCell>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
@@ -226,7 +233,7 @@ export default function ClassesPage() {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuItem>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>Assign to Classes</DropdownMenuItem>
+                                            <DropdownMenuItem>Assign Teacher</DropdownMenuItem>
                                             <DropdownMenuItem className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>

@@ -12,22 +12,19 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+// Timetable for Mr. Alan Grant (Algebra I)
 const teacherTimetable = {
     'monday': [
-        { time: '08:00 - 08:40', subject: 'Mathematics', class: 'JSS 1A' },
-        { time: '11:00 - 11:40', subject: 'Physics', class: 'SSS 2A' },
+        { time: 'Period 1', subject: 'Algebra I', class: '9A' },
     ],
     'tuesday': [
-        { time: '08:40 - 09:20', subject: 'Mathematics', class: 'JSS 1A' },
-        { time: '10:20 - 11:00', subject: 'Physics', class: 'SSS 3A' },
+         { time: 'Period 1', subject: 'Algebra I', class: '9D' },
     ],
     'wednesday': [
-        { time: '09:20 - 10:00', subject: 'Mathematics', class: 'JSS 2B' },
+        { time: 'Period 5', subject: 'Algebra I', class: '9A' },
     ],
     'thursday': [],
-    'friday': [
-        { time: '08:00 - 08:40', subject: 'Chemistry', class: 'SSS 3A' },
-    ],
+    'friday': [],
 };
 
 
@@ -35,7 +32,7 @@ export default function TeacherTimetablePage() {
   return (
     <Card>
         <CardHeader>
-            <CardTitle className="text-2xl font-headline">My Timetable</CardTitle>
+            <CardTitle className="text-2xl font-headline">My Timetable (Mr. Alan Grant)</CardTitle>
             <CardDescription>Your weekly teaching schedule.</CardDescription>
         </CardHeader>
         <CardContent>

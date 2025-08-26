@@ -18,19 +18,16 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, BookOpen, AlertTriangle, FileText } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 
 const timetable = [
-  { time: "09:00 AM", subject: "Mathematics" },
-  { time: "10:00 AM", subject: "English Language" },
-  { time: "11:00 AM", subject: "Basic Science" },
-  { time: "12:00 PM", subject: "Break" },
-  { time: "12:30 PM", subject: "Social Studies" },
+  { time: "Period 1", subject: "Algebra I" },
+  { time: "Period 3", subject: "English Literature" },
+  { time: "Period 5", subject: "Biology" },
 ];
 
 const assignments = [
-    { subject: "Mathematics", topic: "Algebraic Equations", dueDate: "Tomorrow" },
-    { subject: "English Language", topic: "Essay on 'My Last Holiday'", dueDate: "2 days" },
+    { subject: "Algebra I", topic: "Solve for x in linear equations", dueDate: "Tomorrow" },
+    { subject: "English Literature", topic: "Essay on 'The Great Gatsby' Chapter 1", dueDate: "2 days" },
 ];
 
 export default function StudentDashboardPage() {
@@ -38,7 +35,7 @@ export default function StudentDashboardPage() {
     <div className="flex flex-col gap-6">
         <Card>
             <CardHeader>
-                <CardTitle className="text-2xl font-headline">Welcome, Tunde!</CardTitle>
+                <CardTitle className="text-2xl font-headline">Welcome, Liam!</CardTitle>
                 <CardDescription>Here's what your day looks like. Keep up the great work!</CardDescription>
             </CardHeader>
         </Card>
@@ -60,7 +57,7 @@ export default function StudentDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">85% (A)</div>
-            <p className="text-xs text-muted-foreground">Second Term</p>
+            <p className="text-xs text-muted-foreground">Term 1</p>
           </CardContent>
         </Card>
         <Card>
@@ -69,8 +66,8 @@ export default function StudentDashboardPage() {
             <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">₦5,000</div>
-            <p className="text-xs text-muted-foreground">PTA Levy</p>
+            <div className="text-2xl font-bold text-destructive">₦0</div>
+            <p className="text-xs text-muted-foreground">All fees paid</p>
           </CardContent>
         </Card>
         <Card>
@@ -87,7 +84,7 @@ export default function StudentDashboardPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Today's Timetable</CardTitle>
+            <CardTitle>Today's Timetable (Monday)</CardTitle>
             <CardDescription>Your class schedule for today.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,7 +116,7 @@ export default function StudentDashboardPage() {
                 <div key={index}>
                     <div className="flex justify-between items-center mb-1">
                         <p className="font-medium">{item.subject}: <span className="font-normal text-muted-foreground">{item.topic}</span></p>
-                        <Badge variant="secondary">Due in {item.dueDate}</Badge>
+                        <Badge variant="secondary">Due {item.dueDate}</Badge>
                     </div>
                 </div>
             ))}

@@ -38,55 +38,18 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 const teachersData = [
-  {
-    id: 'TCH-001',
-    name: 'Mr. John Adeolu',
-    subject: 'Mathematics',
-    classAssigned: 'JSS 1A',
-    status: 'Active',
-    phone: '08012345678',
-  },
-  {
-    id: 'TCH-002',
-    name: 'Mrs. Funke Adewale',
-    subject: 'English Language',
-    classAssigned: 'JSS 2B',
-    status: 'Active',
-    phone: '08023456789',
-  },
-  {
-    id: 'TCH-003',
-    name: 'Mr. Chidi Okoro',
-    subject: 'Basic Science',
-    classAssigned: 'SSS 1C',
-    status: 'On-Leave',
-    phone: '08034567890',
-  },
-  {
-    id: 'TCH-004',
-    name: 'Mrs. Aisha Bello',
-    subject: 'Social Studies',
-    classAssigned: 'JSS 1A',
-    status: 'Active',
-    phone: '08045678901',
-  },
-  {
-    id: 'TCH-005',
-    name: 'Mr. Emeka Obi',
-    subject: 'Chemistry',
-    classAssigned: 'SSS 3A',
-    status: 'Active',
-    phone: '08056789012',
-  },
+  { id: 'TCH-001', name: 'Mr. Alan Grant', subject: 'Algebra I', status: 'Active', phone: '08012345678' },
+  { id: 'TCH-002', name: 'Ms. Eleanor Vance', subject: 'English Literature', status: 'Active', phone: '08023456789' },
+  { id: 'TCH-003', name: 'Mrs. Katherine Reed', subject: 'World History', status: 'On-Leave', phone: '08034567890' },
+  { id: 'TCH-004', name: 'Mr. David Miller', subject: 'Biology', status: 'Active', phone: '08045678901' },
+  { id: 'TCH-005', name: 'Dr. Evelyn Shaw', subject: 'Chemistry', status: 'Active', phone: '08056789012' },
+  { id: 'TCH-006', name: 'Ms. Chloe Foster', subject: 'Computer Science', status: 'Active', phone: '08067890123' },
+  { id: 'TCH-007', name: 'Coach Brian Murphy', subject: 'Physical Education', status: 'Active', phone: '08078901234' },
+  { id: 'TCH-008', name: 'Ms. Julia Rossi', subject: 'Art & Design', status: 'Active', phone: '08089012345' },
+  { id: 'TCH-009', name: 'Señora Maria Torres', subject: 'Spanish I', status: 'Active', phone: '08090123456' },
+  { id: 'TCH-010', name: 'Mr. Leo Johnson', subject: 'Music Theory', status: 'Active', phone: '08101234567' },
 ];
 
 type Teacher = typeof teachersData[0];
@@ -102,7 +65,6 @@ export default function TeachersPage() {
       id: `TCH-${String(teachers.length + 1).padStart(3, '0')}`,
       name: formData.get('teacherName') as string,
       subject: formData.get('subject') as string,
-      classAssigned: 'N/A',
       status: 'Active',
       phone: formData.get('phone') as string,
     };

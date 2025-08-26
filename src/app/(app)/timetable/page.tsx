@@ -22,38 +22,116 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 
-
 const timetableData = {
-    'jss1a': {
+    '9a': {
         'monday': [
-            { time: '08:00 - 08:40', subject: 'Mathematics', teacher: 'Mr. John Adeolu' },
-            { time: '08:40 - 09:20', subject: 'English Language', teacher: 'Mrs. Funke Adewale' },
-            { time: '09:20 - 10:00', subject: 'Basic Science', teacher: 'Mr. Chidi Okoro' },
-            { time: '10:00 - 10:20', subject: 'Short Break', teacher: '' },
-            { time: '10:20 - 11:00', subject: 'Social Studies', teacher: 'Mrs. Aisha Bello' },
-            { time: '11:00 - 11:40', subject: 'Agricultural Science', teacher: 'Mr. Emeka Obi' },
+            { time: 'Period 1', subject: 'Algebra I', teacher: 'Mr. Alan Grant' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'English Literature', teacher: 'Ms. Eleanor Vance' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'Biology', teacher: 'Mr. David Miller' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
         ],
         'tuesday': [
-            { time: '08:00 - 08:40', subject: 'English Language', teacher: 'Mrs. Funke Adewale' },
-            { time: '08:40 - 09:20', subject: 'Mathematics', teacher: 'Mr. John Adeolu' },
-            { time: '09:20 - 10:00', subject: 'Basic Technology', teacher: 'Mr. John Adeolu' },
-            { time: '10:00 - 10:20', subject: 'Short Break', teacher: '' },
-            { time: '10:20 - 11:00', subject: 'P.H.E', teacher: 'Mr. Chidi Okoro' },
-            { time: '11:00 - 11:40', subject: 'Business Studies', teacher: 'Mrs. Aisha Bello' },
+            { time: 'Period 1', subject: 'Break', teacher: '' },
+            { time: 'Period 2', subject: 'World History', teacher: 'Mrs. Katherine Reed' },
+            { time: 'Period 3', subject: 'Break', teacher: '' },
+            { time: 'Period 4', subject: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+            { time: 'Period 5', subject: 'Break', teacher: '' },
+            { time: 'Period 6', subject: 'PE', teacher: 'Coach Brian Murphy' },
         ],
-        // Add other days similarly
-        'wednesday': [],
+        'wednesday': [
+             { time: 'Period 1', subject: 'Computer Science', teacher: 'Ms. Chloe Foster' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'Spanish I', teacher: 'Señora Maria Torres' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'Algebra I', teacher: 'Mr. Alan Grant' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
+        ],
         'thursday': [],
         'friday': [],
     },
-    'jss1b': {
-        // Add data for JSS 1B
+    '9b': {
          'monday': [
-            { time: '08:00 - 08:40', subject: 'English Language', teacher: 'Mrs. Funke Adewale' },
-            { time: '08:40 - 09:20', subject: 'Mathematics', teacher: 'Mr. John Adeolu' },
+            { time: 'Period 1', subject: 'World History', teacher: 'Mrs. Katherine Reed' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'Spanish I', teacher: 'Señora Maria Torres' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'PE', teacher: 'Coach Brian Murphy' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
         ],
-        'tuesday': [],
-        'wednesday': [],
+        'tuesday': [
+            { time: 'Period 1', subject: 'Break', teacher: '' },
+            { time: 'Period 2', subject: 'English Literature', teacher: 'Ms. Eleanor Vance' },
+            { time: 'Period 3', subject: 'Break', teacher: '' },
+            { time: 'Period 4', subject: 'Biology', teacher: 'Mr. David Miller' },
+            { time: 'Period 5', subject: 'Break', teacher: '' },
+            { time: 'Period 6', subject: 'Art & Design', teacher: 'Ms. Julia Rossi' },
+        ],
+        'wednesday': [
+            { time: 'Period 1', subject: 'Music Theory', teacher: 'Mr. Leo Johnson' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'World History', teacher: 'Mrs. Katherine Reed' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
+        ],
+        'thursday': [],
+        'friday': [],
+    },
+    '9c': {
+        'monday': [
+            { time: 'Period 1', subject: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'Music Theory', teacher: 'Mr. Leo Johnson' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'Biology', teacher: 'Mr. David Miller' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
+        ],
+        'tuesday': [
+            { time: 'Period 1', subject: 'Break', teacher: '' },
+            { time: 'Period 2', subject: 'Spanish I', teacher: 'Señora Maria Torres' },
+            { time: 'Period 3', subject: 'Break', teacher: '' },
+            { time: 'Period 4', subject: 'Computer Science', teacher: 'Ms. Chloe Foster' },
+            { time: 'Period 5', subject: 'Break', teacher: '' },
+            { time: 'Period 6', subject: 'English Literature', teacher: 'Ms. Eleanor Vance' },
+        ],
+        'wednesday': [
+            { time: 'Period 1', subject: 'Art & Design', teacher: 'Ms. Julia Rossi' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'PE', teacher: 'Coach Brian Murphy' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
+        ],
+        'thursday': [],
+        'friday': [],
+    },
+    '9d': {
+        'monday': [
+            { time: 'Period 1', subject: 'Break', teacher: '' },
+            { time: 'Period 2', subject: 'Computer Science', teacher: 'Ms. Chloe Foster' },
+            { time: 'Period 3', subject: 'Break', teacher: '' },
+            { time: 'Period 4', subject: 'Chemistry', teacher: 'Dr. Evelyn Shaw' },
+            { time: 'Period 5', subject: 'Break', teacher: '' },
+            { time: 'Period 6', subject: 'English Literature', teacher: 'Ms. Eleanor Vance' },
+        ],
+        'tuesday': [
+            { time: 'Period 1', subject: 'Algebra I', teacher: 'Mr. Alan Grant' },
+            { time: 'Period 2', subject: 'Break', teacher: '' },
+            { time: 'Period 3', subject: 'Music Theory', teacher: 'Mr. Leo Johnson' },
+            { time: 'Period 4', subject: 'Break', teacher: '' },
+            { time: 'Period 5', subject: 'Biology', teacher: 'Mr. David Miller' },
+            { time: 'Period 6', subject: 'Break', teacher: '' },
+        ],
+        'wednesday': [
+            { time: 'Period 1', subject: 'Break', teacher: '' },
+            { time: 'Period 2', subject: 'Art & Design', teacher: 'Ms. Julia Rossi' },
+            { time: 'Period 3', subject: 'Break', teacher: '' },
+            { time: 'Period 4', subject: 'World History', teacher: 'Mrs. Katherine Reed' },
+            { time: 'Period 5', subject: 'Break', teacher: '' },
+            { time: 'Period 6', subject: 'Spanish I', teacher: 'Señora Maria Torres' },
+        ],
         'thursday': [],
         'friday': [],
     }
@@ -72,7 +150,7 @@ type Timetable = {
 };
 
 export default function TimetablePage() {
-    const [selectedClass, setSelectedClass] = useState('jss1a');
+    const [selectedClass, setSelectedClass] = useState('9a');
     const [currentTimetable, setCurrentTimetable] = useState<Timetable>(timetableData);
 
     const activeTimetable = currentTimetable[selectedClass as keyof typeof currentTimetable] || {};
@@ -93,10 +171,10 @@ export default function TimetablePage() {
                         <SelectValue placeholder="Select a class" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="jss1a">JSS 1A</SelectItem>
-                        <SelectItem value="jss1b">JSS 1B</SelectItem>
-                        <SelectItem value="jss2a">JSS 2A</SelectItem>
-                        <SelectItem value="sss1c">SSS 1C</SelectItem>
+                        <SelectItem value="9a">Class 9A</SelectItem>
+                        <SelectItem value="9b">Class 9B</SelectItem>
+                        <SelectItem value="9c">Class 9C</SelectItem>
+                        <SelectItem value="9d">Class 9D</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

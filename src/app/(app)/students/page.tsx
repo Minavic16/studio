@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MoreHorizontal, PlusCircle, UserPlus, FileUp } from 'lucide-react';
+import { MoreHorizontal, UserPlus, FileUp } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -47,51 +47,16 @@ import {
 } from '@/components/ui/select';
 
 const studentsData = [
-  {
-    id: 'ST-001',
-    name: 'Tunde Adebayo',
-    class: 'JSS 1A',
-    gender: 'Male',
-    status: 'Active',
-    parentName: 'Mr. & Mrs. Adebayo',
-    parentPhone: '08012345678',
-  },
-  {
-    id: 'ST-002',
-    name: 'Chiamaka Nwosu',
-    class: 'JSS 2B',
-    gender: 'Female',
-    status: 'Active',
-    parentName: 'Mr. & Mrs. Nwosu',
-    parentPhone: '08023456789',
-  },
-  {
-    id: 'ST-003',
-    name: 'Musa Ibrahim',
-    class: 'SSS 1C',
-    gender: 'Male',
-    status: 'Suspended',
-    parentName: 'Alhaji Ibrahim',
-    parentPhone: '08034567890',
-  },
-  {
-    id: 'ST-004',
-    name: 'Fatima Bello',
-    class: 'JSS 1A',
-    gender: 'Female',
-    status: 'Withdrawn',
-    parentName: 'Mrs. Bello',
-    parentPhone: '08045678901',
-  },
-  {
-    id: 'ST-005',
-    name: 'David Okon',
-    class: 'SSS 3A',
-    gender: 'Male',
-    status: 'Active',
-    parentName: 'Chief Okon',
-    parentPhone: '08056789012',
-  },
+  { id: 'ST-001', name: 'Liam Chen', class: '9A', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. Chen', parentPhone: '08011223344' },
+  { id: 'ST-002', name: 'Olivia Rodriguez', class: '9B', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Rodriguez', parentPhone: '08022334455' },
+  { id: 'ST-003', name: 'Noah Davis', class: '9C', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. Davis', parentPhone: '08033445566' },
+  { id: 'ST-004', name: 'Emma Thompson', class: '9C', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Thompson', parentPhone: '08044556677' },
+  { id: 'ST-005', name: 'Ava Wilson', class: '9A', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Wilson', parentPhone: '08055667788' },
+  { id: 'ST-006', name: 'Mason Taylor', class: '9B', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. Taylor', parentPhone: '08066778899' },
+  { id: 'ST-007', name: 'Sophia Carter', class: '9C', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Carter', parentPhone: '08077889900' },
+  { id: 'ST-008', name: 'Jackson Lee', class: '9A', gender: 'Male', status: 'Suspended', parentName: 'Mr. & Mrs. Lee', parentPhone: '08088990011' },
+  { id: 'ST-009', name: 'Isabella Hall', class: '9B', gender: 'Female', status: 'Withdrawn', parentName: 'Mr. & Mrs. Hall', parentPhone: '08099001122' },
+  { id: 'ST-010', name: 'Lucas King', class: '9D', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. King', parentPhone: '08100112233' },
 ];
 
 type Student = typeof studentsData[0];
@@ -157,13 +122,10 @@ export default function StudentsPage() {
                             <SelectValue placeholder="Select a class" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="JSS 1A">JSS 1A</SelectItem>
-                            <SelectItem value="JSS 1B">JSS 1B</SelectItem>
-                            <SelectItem value="JSS 2A">JSS 2A</SelectItem>
-                            <SelectItem value="JSS 2B">JSS 2B</SelectItem>
-                            <SelectItem value="SSS 1A">SSS 1A</SelectItem>
-                            <SelectItem value="SSS 2B">SSS 2B</SelectItem>
-                            <SelectItem value="SSS 3A">SSS 3A</SelectItem>
+                            <SelectItem value="9A">9A</SelectItem>
+                            <SelectItem value="9B">9B</SelectItem>
+                            <SelectItem value="9C">9C</SelectItem>
+                            <SelectItem value="9D">9D</SelectItem>
                         </SelectContent>
                     </Select>
                   </div>
