@@ -6,9 +6,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Bot, Send, X, LoaderCircle } from "lucide-react";
+import { Bot, Send, X } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 type Message = {
   role: "user" | "bot";
@@ -133,7 +133,7 @@ export function Chatbot() {
                             </AvatarFallback>
                         </Avatar>
                         <div className="rounded-lg px-4 py-2 bg-muted flex items-center">
-                            <LoaderCircle className="h-4 w-4 animate-spin"/>
+                           <div className="loader"></div>
                         </div>
                     </div>
                 )}
