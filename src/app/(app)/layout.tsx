@@ -1,7 +1,7 @@
 
 'use client';
 
-import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset, SidebarTrigger, SidebarRail } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import {
   LayoutDashboard,
@@ -79,6 +79,7 @@ export default function AppLayout({
         <SidebarProvider>
           <div className="flex min-h-screen">
             <Sidebar className="flex flex-col" collapsible="icon">
+                <SidebarRail />
               <SidebarHeader>
                 <Logo />
               </SidebarHeader>
