@@ -63,10 +63,10 @@ export default function TeacherAttendancePage() {
         <CardDescription>Select a class and date to mark student attendance.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-between items-center mb-4 gap-2">
-            <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
+            <div className="flex flex-col md:flex-row items-center gap-2">
                 <Select value={selectedClass} onValueChange={setSelectedClass}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select a class" />
                     </SelectTrigger>
                     <SelectContent>
@@ -75,7 +75,7 @@ export default function TeacherAttendancePage() {
                     </SelectContent>
                 </Select>
                  <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select a subject" />
                     </SelectTrigger>
                     <SelectContent>
@@ -88,7 +88,7 @@ export default function TeacherAttendancePage() {
                         <Button
                         variant={"outline"}
                         className={cn(
-                            "w-[240px] justify-start text-left font-normal",
+                            "w-full md:w-[240px] justify-start text-left font-normal",
                             !date && "text-muted-foreground"
                         )}
                         >
@@ -106,7 +106,7 @@ export default function TeacherAttendancePage() {
                     </PopoverContent>
                 </Popover>
             </div>
-            <Button>Save Attendance</Button>
+            <Button className="w-full md:w-auto">Save Attendance</Button>
         </div>
         <Table>
           <TableHeader>
@@ -120,7 +120,7 @@ export default function TeacherAttendancePage() {
               <TableRow key={student.id}>
                 <TableCell className="font-medium">{student.name}</TableCell>
                 <TableCell>
-                    <RadioGroup defaultValue={student.status} className="flex justify-center gap-4">
+                    <RadioGroup defaultValue={student.status} className="flex flex-wrap justify-center gap-2 md:gap-4">
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="present" id={`present-${student.id}`} />
                             <Label htmlFor={`present-${student.id}`} className="flex items-center gap-1 text-green-600"><CheckCircle2 size={16}/> Present</Label>

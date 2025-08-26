@@ -66,10 +66,10 @@ export default function TeacherStudentsPage() {
         <CardDescription>View and manage students in your assigned classes.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-between items-center mb-4 gap-2">
-            <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
+            <div className="flex flex-col md:flex-row items-center gap-2 w-full">
                 <Select value={selectedClass} onValueChange={setSelectedClass}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select a class" />
                     </SelectTrigger>
                     <SelectContent>
@@ -79,7 +79,7 @@ export default function TeacherStudentsPage() {
                         <SelectItem value="sss3a">SSS 3A</SelectItem>
                     </SelectContent>
                 </Select>
-                <Input placeholder="Search students..." className="w-[240px]"/>
+                <Input placeholder="Search students..." className="w-full md:w-[240px]"/>
             </div>
         </div>
         <Table>

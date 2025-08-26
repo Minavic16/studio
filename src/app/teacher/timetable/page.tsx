@@ -40,19 +40,21 @@ export default function TeacherTimetablePage() {
         </CardHeader>
         <CardContent>
              <Tabs defaultValue="monday">
-                <TabsList>
-                    <TabsTrigger value="monday">Monday</TabsTrigger>
-                    <TabsTrigger value="tuesday">Tuesday</TabsTrigger>
-                    <TabsTrigger value="wednesday">Wednesday</TabsTrigger>
-                    <TabsTrigger value="thursday">Thursday</TabsTrigger>
-                    <TabsTrigger value="friday">Friday</TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto pb-2">
+                    <TabsList>
+                        <TabsTrigger value="monday">Monday</TabsTrigger>
+                        <TabsTrigger value="tuesday">Tuesday</TabsTrigger>
+                        <TabsTrigger value="wednesday">Wednesday</TabsTrigger>
+                        <TabsTrigger value="thursday">Thursday</TabsTrigger>
+                        <TabsTrigger value="friday">Friday</TabsTrigger>
+                    </TabsList>
+                </div>
                 {Object.keys(teacherTimetable).map(day => (
                     <TabsContent value={day} key={day}>
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="w-[200px]">Time</TableHead>
+                                    <TableHead className="w-[150px] md:w-[200px]">Time</TableHead>
                                     <TableHead>Subject</TableHead>
                                     <TableHead>Class</TableHead>
                                 </TableRow>

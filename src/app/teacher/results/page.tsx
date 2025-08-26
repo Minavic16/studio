@@ -47,10 +47,10 @@ export default function TeacherResultsPage() {
         <CardDescription>Input student scores for assessments and examinations.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-between items-center mb-4 gap-2">
-            <div className="flex items-center gap-2">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
+            <div className="flex flex-col md:flex-row items-center gap-2">
                 <Select value={selectedExam} onValueChange={setSelectedExam}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select Exam" />
                     </SelectTrigger>
                     <SelectContent>
@@ -59,7 +59,7 @@ export default function TeacherResultsPage() {
                     </SelectContent>
                 </Select>
                 <Select value={selectedClass} onValueChange={setSelectedClass}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select Class" />
                     </SelectTrigger>
                     <SelectContent>
@@ -68,7 +68,7 @@ export default function TeacherResultsPage() {
                     </SelectContent>
                 </Select>
                 <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select Subject" />
                     </SelectTrigger>
                     <SelectContent>
@@ -77,9 +77,9 @@ export default function TeacherResultsPage() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="flex gap-2">
-                <Button variant="outline"><Upload className="mr-2"/>Upload from CSV</Button>
-                <Button>Save Results</Button>
+            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                <Button variant="outline" className="w-full md:w-auto"><Upload className="mr-2"/>Upload from CSV</Button>
+                <Button className="w-full md:w-auto">Save Results</Button>
             </div>
         </div>
         <Table>
