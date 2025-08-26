@@ -33,6 +33,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 const initialStudentAttendance = [
     { id: 'ST-001', name: 'Tunde Adebayo', class: 'JSS 1A', status: 'Present', checkIn: '08:02 AM', checkOut: '04:05 PM' },
@@ -51,7 +52,11 @@ const initialStaffAttendance = [
 export default function AttendancePage() {
     const [studentDate, setStudentDate] = useState<Date | undefined>(new Date());
     const [staffDate, setStaffDate] = useState<Date | undefined>(new Date());
+    const { toast } = useToast();
 
+    const showToast = (title: string, description: string) => {
+        toast({ title, description });
+    };
 
   return (
     <Card>
@@ -101,7 +106,7 @@ export default function AttendancePage() {
                             </PopoverContent>
                         </Popover>
                        </div>
-                        <Button><PlusCircle className="mr-2"/>Mark Attendance</Button>
+                        <Button onClick={() => showToast("Feature In Development", "A dialog for marking attendance will be shown here.")}><PlusCircle className="mr-2"/>Mark Attendance</Button>
                     </div>
                      <Table>
                         <TableHeader>
@@ -188,5 +193,3 @@ export default function AttendancePage() {
     </Card>
   );
 }
-
-    

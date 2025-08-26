@@ -38,6 +38,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
 const teachersData = [
   { id: 'TCH-001', name: 'Mr. Alan Grant', subject: 'Algebra I', status: 'Active', phone: '08012345678' },
@@ -57,6 +58,7 @@ type Teacher = typeof teachersData[0];
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState(teachersData);
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleAddTeacher = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,7 +72,26 @@ export default function TeachersPage() {
     };
     setTeachers([...teachers, newTeacher]);
     setOpen(false);
+     toast({
+        title: "Teacher Added",
+        description: `${newTeacher.name} has been successfully added.`,
+    });
   };
+
+  const handleDeleteTeacher = (teacherId: string) => {
+    const teacherName = teachers.find(t => t.id === teacherId)?.name || 'Teacher';
+    setTeachers(teachers.filter((teacher) => teacher.id !== teacherId));
+    toast({
+        title: "Teacher Deleted",
+        description: `${teacherName} has been removed from the system.`,
+        variant: 'destructive'
+    });
+  };
+
+  const showToast = (title: string, description: string) => {
+    toast({ title, description });
+  };
+
 
   return (
     <Card>
@@ -126,7 +147,7 @@ export default function TeachersPage() {
                 </form>
               </DialogContent>
             </Dialog>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => showToast("Coming Soon!", "Bulk teacher import will be available in a future update.")}>
                 <FileUp className="mr-2" />
                 Bulk Import
             </Button>
@@ -173,9 +194,9 @@ export default function TeachersPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => showToast("Feature In Development", "Detailed teacher view is coming soon.")}>View Details</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => showToast("Feature In Development", "Teacher editing will be available soon.")}>Edit</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDeleteTeacher(teacher.id)} className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

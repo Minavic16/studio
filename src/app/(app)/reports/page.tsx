@@ -11,12 +11,20 @@ import { CalendarIcon, Download } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ReportsPage() {
     const [studentReportDate, setStudentReportDate] = useState<Date | undefined>(new Date());
     const [attendanceReportDate, setAttendanceReportDate] = useState<{from: Date | undefined, to: Date | undefined}>({ from: new Date(), to: new Date()});
     const [financeReportDate, setFinanceReportDate] = useState<{from: Date | undefined, to: Date | undefined}>({ from: new Date(), to: new Date()});
+    const { toast } = useToast();
 
+    const handleGenerateReport = (reportName: string) => {
+        toast({
+            title: "Generating Report...",
+            description: `${reportName} is being generated and will download shortly.`,
+        });
+    }
 
   return (
     <div className='space-y-6'>
@@ -60,7 +68,7 @@ export default function ReportsPage() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button className="w-full"><Download className="mr-2"/>Generate Report</Button>
+                    <Button className="w-full" onClick={() => handleGenerateReport('Student Performance Report')}><Download className="mr-2"/>Generate Report</Button>
                 </CardContent>
             </Card>
 
@@ -110,7 +118,7 @@ export default function ReportsPage() {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <Button className="w-full"><Download className="mr-2"/>Generate Report</Button>
+                    <Button className="w-full" onClick={() => handleGenerateReport('Financial Report')}><Download className="mr-2"/>Generate Report</Button>
                 </CardContent>
             </Card>
 
@@ -159,7 +167,7 @@ export default function ReportsPage() {
                             </PopoverContent>
                         </Popover>
                     </div>
-                    <Button className="w-full"><Download className="mr-2"/>Generate Report</Button>
+                    <Button className="w-full" onClick={() => handleGenerateReport('Attendance Analytics Report')}><Download className="mr-2"/>Generate Report</Button>
                 </CardContent>
             </Card>
 
@@ -183,7 +191,7 @@ export default function ReportsPage() {
                         </Select>
                     </div>
                     <div className="h-[72px]"></div>
-                    <Button className="w-full"><Download className="mr-2"/>Generate Report</Button>
+                    <Button className="w-full" onClick={() => handleGenerateReport('Enrollment Summary Report')}><Download className="mr-2"/>Generate Report</Button>
                 </CardContent>
             </Card>
 

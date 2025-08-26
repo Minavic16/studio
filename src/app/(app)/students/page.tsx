@@ -45,6 +45,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 
 const studentsData = [
   { id: 'ST-001', name: 'Liam Chen', class: '9A', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. Chen', parentPhone: '08011223344' },
@@ -54,7 +55,7 @@ const studentsData = [
   { id: 'ST-005', name: 'Ava Wilson', class: '9A', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Wilson', parentPhone: '08055667788' },
   { id: 'ST-006', name: 'Mason Taylor', class: '9B', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. Taylor', parentPhone: '08066778899' },
   { id: 'ST-007', name: 'Sophia Carter', class: '9C', gender: 'Female', status: 'Active', parentName: 'Mr. & Mrs. Carter', parentPhone: '08077889900' },
-  { id: 'ST-008', name: 'Jackson Lee', class: '9A', gender: 'Male', status: 'Suspended', parentName: 'Mr. & Mrs. Lee', parentPhone: '08088990011' },
+  { id: 'ST-008', name: 'Jackson Lee', class: '9A', gender: 'Suspended', parentName: 'Mr. & Mrs. Lee', parentPhone: '08088990011' },
   { id: 'ST-009', name: 'Isabella Hall', class: '9B', gender: 'Female', status: 'Withdrawn', parentName: 'Mr. & Mrs. Hall', parentPhone: '08099001122' },
   { id: 'ST-010', name: 'Lucas King', class: '9D', gender: 'Male', status: 'Active', parentName: 'Mr. & Mrs. King', parentPhone: '08100112233' },
 ];
@@ -64,6 +65,7 @@ type Student = typeof studentsData[0];
 export default function StudentsPage() {
   const [students, setStudents] = useState(studentsData);
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleAddStudent = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +81,26 @@ export default function StudentsPage() {
     };
     setStudents([...students, newStudent]);
     setOpen(false);
+    toast({
+        title: "Student Added",
+        description: `${newStudent.name} has been successfully added.`,
+    });
   };
+
+  const handleDeleteStudent = (studentId: string) => {
+    const studentName = students.find(s => s.id === studentId)?.name || 'Student';
+    setStudents(students.filter((student) => student.id !== studentId));
+    toast({
+        title: "Student Deleted",
+        description: `${studentName} has been removed from the system.`,
+        variant: 'destructive'
+    });
+  };
+
+  const showToast = (title: string, description: string) => {
+    toast({ title, description });
+  };
+
 
   return (
     <Card>
@@ -165,7 +186,7 @@ export default function StudentsPage() {
                 </form>
               </DialogContent>
             </Dialog>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => showToast("Coming Soon!", "Bulk student import will be available in a future update.")}>
                 <FileUp className="mr-2" />
                 Bulk Import
             </Button>
@@ -221,9 +242,9 @@ export default function StudentsPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => showToast("Feature In Development", "Detailed student view is coming soon.")}>View Details</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => showToast("Feature In Development", "Student editing will be available soon.")}>Edit</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDeleteStudent(student.id)} className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -235,3 +256,4 @@ export default function StudentsPage() {
     </Card>
   );
 }
+

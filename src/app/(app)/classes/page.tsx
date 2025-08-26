@@ -45,6 +45,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
 
 const initialClassesData = [
     { id: 'CLS-001', name: '9A', studentCount: 3, formTeacher: 'Mr. Alan Grant' },
@@ -77,6 +78,7 @@ export default function ClassesPage() {
     const [subjects, setSubjects] = useState(initialSubjectsData);
     const [isClassDialogOpen, setClassDialogOpen] = useState(false);
     const [isSubjectDialogOpen, setSubjectDialogOpen] = useState(false);
+    const { toast } = useToast();
 
     const handleAddClass = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -89,6 +91,7 @@ export default function ClassesPage() {
         };
         setClasses([...classes, newClass]);
         setClassDialogOpen(false);
+        toast({ title: "Class Added", description: `Class ${newClass.name} has been created.`});
     };
 
     const handleAddSubject = (event: React.FormEvent<HTMLFormElement>) => {
@@ -101,7 +104,24 @@ export default function ClassesPage() {
         };
         setSubjects([...subjects, newSubject]);
         setSubjectDialogOpen(false);
+        toast({ title: "Subject Added", description: `Subject ${newSubject.name} has been created.`});
     };
+
+    const handleDeleteClass = (classId: string) => {
+        const className = classes.find(c => c.id === classId)?.name || 'Class';
+        setClasses(classes.filter(c => c.id !== classId));
+        toast({ title: "Class Deleted", description: `Class ${className} has been removed.`, variant: 'destructive'});
+    }
+
+    const handleDeleteSubject = (subjectId: string) => {
+        const subjectName = subjects.find(s => s.id === subjectId)?.name || 'Subject';
+        setSubjects(subjects.filter(s => s.id !== subjectId));
+        toast({ title: "Subject Deleted", description: `Subject ${subjectName} has been removed.`, variant: 'destructive'});
+    }
+
+    const showToast = (title: string, description: string) => {
+        toast({ title, description });
+    }
 
 
   return (
@@ -201,9 +221,9 @@ export default function ClassesPage() {
                                             <Button aria-haspopup="true" size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /><span className="sr-only">Toggle menu</span></Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>View Students</DropdownMenuItem>
-                                            <DropdownMenuItem className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => showToast("Feature In Development", "Class editing will be available soon.")}>Edit</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => showToast("Feature In Development", "This will navigate to the students page with the class pre-selected.")}>View Students</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => handleDeleteClass(c.id)} className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
@@ -232,9 +252,9 @@ export default function ClassesPage() {
                                             <Button aria-haspopup="true" size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /><span className="sr-only">Toggle menu</span></Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>Assign Teacher</DropdownMenuItem>
-                                            <DropdownMenuItem className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => showToast("Feature In Development", "Subject editing will be available soon.")}>Edit</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => showToast("Feature In Development", "A dialog to assign a teacher will be shown here.")}>Assign Teacher</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => handleDeleteSubject(s.id)} className="text-destructive focus:text-destructive">Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>

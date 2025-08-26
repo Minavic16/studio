@@ -22,6 +22,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Upload, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 const examScheduleData = [
   { id: 'EXM-001', name: 'First Term Examination', class: 'All Classes', date: '2024-03-15', status: 'Completed' },
@@ -49,9 +50,15 @@ export default function ExamsPage() {
   const [selectedExam, setSelectedExam] = useState('midterm');
   const [selectedClass, setSelectedClass] = useState('jss1a');
   const [selectedSubject, setSelectedSubject] = useState('math');
+  const { toast } = useToast();
   
   const resultsKey = `${selectedClass}-${selectedSubject}-${selectedExam}`;
   const currentResults = examResultsData[resultsKey as keyof typeof examResultsData] || [];
+
+  const showToast = (title: string, description: string) => {
+    toast({ title, description });
+  };
+
 
   return (
     <Card>
@@ -67,7 +74,7 @@ export default function ExamsPage() {
                 </TabsList>
                 <TabsContent value="schedule">
                     <div className="flex justify-end mb-4">
-                        <Button><PlusCircle className="mr-2"/>Schedule New Exam</Button>
+                        <Button onClick={() => showToast("Feature In Development", "A dialog for scheduling a new exam will appear here.")}><PlusCircle className="mr-2"/>Schedule New Exam</Button>
                     </div>
                     <Table>
                         <TableHeader>
@@ -124,8 +131,8 @@ export default function ExamsPage() {
                             </Select>
                         </div>
                         <div className="flex gap-2">
-                            <Button variant="outline"><Upload className="mr-2"/>Upload Results</Button>
-                            <Button><CheckCircle className="mr-2"/>Publish Results</Button>
+                            <Button variant="outline" onClick={() => showToast("Feature In Development", "This will open a file dialog to upload a CSV of student results.")}><Upload className="mr-2"/>Upload Results</Button>
+                            <Button onClick={() => showToast("Results Published!", "Students can now view their results in their portal.")}><CheckCircle className="mr-2"/>Publish Results</Button>
                         </div>
                     </div>
                     <Table>
