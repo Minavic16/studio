@@ -28,7 +28,7 @@ const timetable = [
 
 export default function TeacherDashboardPage() {
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in-50 duration-500">
+    <div className="flex flex-col gap-6">
         <Card>
             <CardHeader>
                 <CardTitle className="text-2xl font-headline">Welcome, Teacher!</CardTitle>

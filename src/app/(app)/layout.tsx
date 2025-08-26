@@ -113,7 +113,7 @@ export default function AppLayout({
               <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-sm px-4 sm:px-6">
                  <AppHeaderContent />
               </header>
-              <main className="flex-1 overflow-auto p-4 sm:p-6">
+              <main className="flex-1 overflow-auto p-4 sm:p-6 animate-in fade-in-50 duration-500">
                 {children}
               </main>
             </SidebarInset>

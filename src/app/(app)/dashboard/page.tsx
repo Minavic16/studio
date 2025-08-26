@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -57,7 +58,7 @@ const timetable = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in-50 duration-500">
+    <div className="flex flex-col gap-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

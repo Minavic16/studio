@@ -35,7 +35,7 @@ const assignments = [
 
 export default function StudentDashboardPage() {
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in-50 duration-500">
+    <div className="flex flex-col gap-6">
         <Card>
             <CardHeader>
                 <CardTitle className="text-2xl font-headline">Welcome, Tunde!</CardTitle>
