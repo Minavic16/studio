@@ -90,7 +90,7 @@ export default function StudentRegistrationPage() {
           <CardDescription>Complete the steps below to enroll.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="mb-8 flex items-center justify-center gap-4">
+          <div className="mb-8 flex items-center justify-center gap-2 md:gap-4">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center gap-2">
                 <div
@@ -102,8 +102,8 @@ export default function StudentRegistrationPage() {
                 >
                   {currentStep > step.id ? <Check size={20}/> : step.id}
                 </div>
-                <span className={cn('font-medium', currentStep === step.id ? 'text-primary' : 'text-muted-foreground')}>{step.name}</span>
-                {index < steps.length - 1 && <div className="h-px w-16 bg-border" />}
+                <span className={cn('hidden font-medium md:inline', currentStep === step.id ? 'text-primary' : 'text-muted-foreground')}>{step.name}</span>
+                {index < steps.length - 1 && <div className="h-px w-8 bg-border md:w-16" />}
               </div>
             ))}
           </div>
