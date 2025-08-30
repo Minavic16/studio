@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import AiModeButton from "@/components/AiModeButton";
 
 
 const menuItems = [
@@ -55,6 +56,7 @@ function AppHeaderContent() {
         />
       </div>
       <div className="flex items-center gap-4">
+        <AiModeButton />
         <Button variant="ghost" size="icon" className="rounded-full">
         <Bell className="h-5 w-5" />
         <span className="sr-only">Toggle notifications</span>

@@ -1,0 +1,93 @@
+/* --- Root variables for easy customization --- */
+:root {
+    --icon-size: 32px; /* Default icon size */
+    --border-thickness: 3px;
+    --frame-color: hsl(var(--foreground));
+    --text-color: hsl(var(--foreground));
+    --main-sparkle-color: hsl(var(--foreground));
+    --medium-sparkle-color: hsl(var(--muted-foreground));
+    --light-sparkle-color: hsl(var(--accent-foreground));
+    --background-color: hsl(var(--background));
+}
+
+/* --- Main Container --- */
+.ai-icon-container {
+    position: relative;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* --- The Frame with the Open Corner --- */
+.ai-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: var(--border-thickness) solid var(--frame-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* This pseudo-element is the trick to create the open corner.
+   It's a square placed over the top-right corner of the border. */
+.ai-frame::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--border-thickness) * -1);
+    right: calc(var(--border-thickness) * -1);
+    width: 12px;
+    height: 12px;
+    background-color: var(--background-color);
+}
+
+/* --- The "AI" Text --- */
+.ai-text {
+    font-size: calc(var(--icon-size) * 0.45); /* Scales with the icon size */
+    font-weight: 900;
+    color: var(--text-color);
+    z-index: 2; /* Ensures text is above other elements */
+}
+
+/* --- The Sparkles --- */
+.sparkles {
+    position: absolute;
+    top: -5%;
+    right: -10%;
+    width: 40%;
+    height: 40%;
+    z-index: 3; /* Ensures sparkles are on top */
+}
+
+/* A common class for the star shape using the modern clip-path property */
+.sparkle {
+    position: absolute;
+    /* This polygon creates a 4-point star shape */
+    clip-path: polygon(50% 0%, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0% 50%, 42% 42%);
+}
+
+.main-sparkle {
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-sparkle-color);
+    transform: rotate(-15deg);
+}
+
+.medium-sparkle {
+    width: 60%;
+    height: 60%;
+    background-color: var(--medium-sparkle-color);
+    top: -15%;
+    left: 55%;
+    transform: rotate(15deg);
+}
+
+.light-sparkle {
+    width: 40%;
+    height: 40%;
+    background-color: var(--light-sparkle-color);
+    top: 25%;
+    left: -15%;
+}

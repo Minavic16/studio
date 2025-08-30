@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Bot, Send, X } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import { useLoader } from "./ui/loader-context";
 
 type Message = {
   role: "user" | "bot";
@@ -14,19 +15,21 @@ type Message = {
 };
 
 export function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { loader: isOpen, setLoader: setIsOpen } = useLoader();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-    if (!isOpen) {
-      setMessages([
-        { role: "bot", content: "Hello! I'm the NestEdge School Management Engine AI assistant. How can I help you with the system today?" },
-      ]);
-    }
+    setIsOpen((prev: any) => {
+      if (!prev) {
+        setMessages([
+          { role: "bot", content: "Hello! I'm the NestEdge School Management Engine AI assistant. How can I help you with the system today?" },
+        ]);
+      }
+      return !prev;
+    });
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -66,17 +69,6 @@ export function Chatbot() {
   
   return (
     <>
-      <div className={cn("fixed bottom-6 right-6 z-50 transition-transform duration-300 ease-in-out", isOpen ? "translate-x-[500px]" : "translate-x-0")}>
-        <Button
-          size="icon"
-          className="h-16 w-16 rounded-full shadow-2xl"
-          onClick={handleToggle}
-        >
-          {isOpen ? <X className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
-          <span className="sr-only">Toggle Chatbot</span>
-        </Button>
-      </div>
-
       {isOpen && (
         <Card className={cn("fixed bottom-6 right-6 z-40 w-full max-w-sm shadow-2xl transition-all duration-300 ease-in-out", isOpen ? "animate-in slide-in-from-right-20 fade-in" : "animate-out slide-out-to-right-20 fade-out")}>
           <CardHeader className="flex flex-row items-center justify-between">
