@@ -28,6 +28,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { PlusCircle, MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 
 const paymentData = [
@@ -40,6 +42,8 @@ const paymentData = [
 
 export default function PaymentsPage() {
   const [payments, setPayments] = useState(paymentData);
+  const [loading, setLoading] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const { toast } = useToast();
 
   const showToast = (title: string, description: string) => {
@@ -60,8 +64,27 @@ export default function PaymentsPage() {
           <CardDescription>Track and manage all student fee payments and invoices.</CardDescription>
         </div>
         <div className="flex gap-2">
-            <Button onClick={() => showToast("Feature In Development", "A dialog for creating a new invoice will be shown here.")}><PlusCircle className="mr-2"/>Create Invoice</Button>
-            <Button onClick={() => showToast("Feature In Development", "A dialog for recording an offline payment will be shown here.")} variant="outline">Record Payment</Button>
+          <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
+            <DialogTrigger asChild>
+              <Button onClick={() => setShowCreateModal(true)}><PlusCircle className="mr-2"/>Create Invoice</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Invoice</DialogTitle>
+              </DialogHeader>
+              {/* Add form fields for invoice creation here */}
+              <div className="space-y-2">
+                <p className="text-muted-foreground">This is a template modal. Add your form fields here.</p>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Create</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <Button onClick={() => showToast("Feature In Development", "A dialog for recording an offline payment will be shown here.") } variant="outline">Record Payment</Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -104,33 +127,47 @@ export default function PaymentsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {payments.map((payment) => (
-              <TableRow key={payment.id}>
-                <TableCell className="font-medium">{payment.id}</TableCell>
-                <TableCell>{payment.studentName}</TableCell>
-                <TableCell>{payment.class}</TableCell>
-                <TableCell>{payment.amount.toLocaleString()}</TableCell>
-                <TableCell>
-                  <Badge variant={
-                    payment.status === 'Paid' ? 'default' :
-                    payment.status === 'Overdue' ? 'destructive' : 'secondary'
-                  } className={cn(payment.status === 'Due' && 'bg-yellow-500 text-black')}>{payment.status}</Badge>
-                </TableCell>
-                <TableCell>{payment.dueDate}</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup="true" size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /><span className="sr-only">Toggle menu</span></Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => showToast("Feature In Development", "A dialog with detailed invoice information will be shown here.")}>View Details</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => showToast("Reminder Sent", `A payment reminder has been sent to ${payment.studentName}'s parents.`)}>Send Reminder</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => markAsPaid(payment.id)} disabled={payment.status === 'Paid'}>Mark as Paid</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
+            {loading ? (
+              Array.from({ length: 5 }).map((_, idx) => (
+                <TableRow key={idx}>
+                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                  <TableCell><Skeleton className="h-8 w-8" /></TableCell>
+                </TableRow>
+              ))
+            ) : (
+              payments.map((payment) => (
+                <TableRow key={payment.id}>
+                  <TableCell className="font-medium">{payment.id}</TableCell>
+                  <TableCell>{payment.studentName}</TableCell>
+                  <TableCell>{payment.class}</TableCell>
+                  <TableCell>{payment.amount.toLocaleString()}</TableCell>
+                  <TableCell>
+                    <Badge variant={
+                      payment.status === 'Paid' ? 'default' :
+                      payment.status === 'Overdue' ? 'destructive' : 'secondary'
+                    } className={cn(payment.status === 'Due' && 'bg-yellow-500 text-black')}>{payment.status}</Badge>
+                  </TableCell>
+                  <TableCell>{payment.dueDate}</TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button aria-haspopup="true" size="icon" variant="ghost"><MoreHorizontal className="h-4 w-4" /><span className="sr-only">Toggle menu</span></Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => showToast("Feature In Development", "A dialog with detailed invoice information will be shown here.")}>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => showToast("Reminder Sent", `A payment reminder has been sent to ${payment.studentName}'s parents.`)}>Send Reminder</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => markAsPaid(payment.id)} disabled={payment.status === 'Paid'}>Mark as Paid</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </CardContent>

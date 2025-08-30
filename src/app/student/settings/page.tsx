@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -13,11 +12,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { auth } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { type FormEvent } from "react";
 
 export default function StudentSettingsPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push("/login");
+  };
 
-  const handleSaveChanges = (e: React.FormEvent) => {
+  const handleSaveChanges = (e: FormEvent) => {
     e.preventDefault();
     toast({
         title: "Settings Saved",
@@ -57,7 +65,7 @@ export default function StudentSettingsPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button variant="destructive">
+          <Button variant="destructive" onClick={handleLogout}>
             <LogOut className="mr-2" />
             Log Out
           </Button>

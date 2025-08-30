@@ -100,4 +100,18 @@
       66%  {background-position:50% 0  ,0   100%,100% 100%,50%  0}
       100% {background-position:50% 50%,0   50% ,100% 50% ,50%  50%}
   }
+
+  .btn,
+  .button,
+  button,
+  [role="button"] {
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn:hover,
+  .button:hover,
+  button:hover,
+  [role="button"]:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
 }

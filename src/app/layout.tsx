@@ -1,6 +1,9 @@
 import type {Metadata} from 'next';
 import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
+import { type ReactNode } from 'react';
+import PageLoader from '@/components/ui/page-loader';
+import { LoaderProvider } from '@/components/ui/loader-context';
 
 export const metadata: Metadata = {
   title: 'NestEdge School Management Engine: Streamlined Education',
@@ -10,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -20,8 +23,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        {children}
-        <Toaster />
+        <LoaderProvider>
+          <PageLoader />
+          {children}
+          <Toaster />
+        </LoaderProvider>
       </body>
     </html>
   );

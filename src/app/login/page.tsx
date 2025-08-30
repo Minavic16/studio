@@ -36,6 +36,7 @@ export default function RoleSelectionPage() {
             onClick={() => router.push('/dashboard')}
             className="w-full"
             size="lg"
+            variant="default"
           >
             <UserCog className="mr-2" />
             Login as Administrator
@@ -44,7 +45,7 @@ export default function RoleSelectionPage() {
             onClick={() => router.push('/teacher/dashboard')}
             className="w-full"
             size="lg"
-            variant="secondary"
+            variant="default"
           >
             <User className="mr-2" />
             Login as Teacher
@@ -53,7 +54,7 @@ export default function RoleSelectionPage() {
             onClick={() => router.push('/student/dashboard')}
             className="w-full"
             size="lg"
-            variant="outline"
+            variant="default"
           >
             <School className="mr-2" />
             Login as Student

@@ -1,6 +1,4 @@
 "use client";
-
-import { adminChatbot } from "@/ai/flows/admin-chatbot";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -41,8 +39,13 @@ export function Chatbot() {
     setInput("");
 
     try {
-      const response = await adminChatbot({ query: input });
-      const botMessage: Message = { role: "bot", content: response.response };
+      const res = await fetch('/api/admin-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: input }),
+      });
+      const data = await res.json();
+      const botMessage: Message = { role: 'bot', content: data.response ?? 'Sorry, no response.' };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       const errorMessage: Message = {

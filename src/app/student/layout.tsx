@@ -1,6 +1,8 @@
 
 'use client';
 
+import { type ReactNode } from "react";
+
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset, SidebarTrigger, SidebarRail } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import {
@@ -59,7 +61,7 @@ function StudentHeaderContent() {
 export default function StudentLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
       <ThemeProvider

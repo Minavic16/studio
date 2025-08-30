@@ -1,6 +1,7 @@
 
-'use client';
+"use client";
 
+import { useEffect, useState, type ReactNode } from "react";
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter, SidebarInset, SidebarTrigger, SidebarRail } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import {
@@ -17,11 +18,13 @@ import {
   Bell,
   Search,
 } from "lucide-react";
-import { Chatbot } from "@/components/chatbot";
+import dynamic from "next/dynamic";
+const Chatbot = dynamic(() => import("@/components/chatbot").then((m) => m.Chatbot), { ssr: false });
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
@@ -38,37 +41,43 @@ const menuItems = [
 ];
 
 function AppHeaderContent() {
-    return (
-        <>
-            <div className="md:hidden">
-                <SidebarTrigger />
-            </div>
-            <div className="relative flex-1">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                type="search"
-                placeholder="Search..."
-                className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-                />
-            </div>
-            <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" className="rounded-full">
-                <Bell className="h-5 w-5" />
-                <span className="sr-only">Toggle notifications</span>
-                </Button>
-                <Avatar className="h-9 w-9">
-                    <AvatarFallback>AD</AvatarFallback>
-                </Avatar>
-            </div>
-        </>
+  return (
+    <>
+      <div className="md:hidden">
+        <SidebarTrigger />
+      </div>
+      <div className="relative flex-1">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+        type="search"
+        placeholder="Search..."
+        className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
+        />
+      </div>
+      <div className="flex items-center gap-4">
+        <Button variant="ghost" size="icon" className="rounded-full">
+        <Bell className="h-5 w-5" />
+        <span className="sr-only">Toggle notifications</span>
+        </Button>
+        <ThemeToggle />
+        <Avatar className="h-9 w-9">
+          <AvatarFallback>AD</AvatarFallback>
+        </Avatar>
+      </div>
+    </>
     )
 }
 
 export default function AppLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
+  // Track current path for active sidebar highlighting
+  const [pathname, setPathname] = useState("");
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
   return (
       <ThemeProvider
           attribute="class"
@@ -88,7 +97,7 @@ export default function AppLayout({
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
                       <Link href={item.href} legacyBehavior passHref>
-                        <SidebarMenuButton tooltip={item.label}>
+                        <SidebarMenuButton tooltip={item.label} isActive={pathname.startsWith(item.href)}>
                           <item.icon />
                           <span>{item.label}</span>
                         </SidebarMenuButton>
@@ -101,7 +110,7 @@ export default function AppLayout({
                  <SidebarMenu>
                      <SidebarMenuItem>
                         <Link href="/settings" legacyBehavior passHref>
-                            <SidebarMenuButton tooltip="Settings">
+                            <SidebarMenuButton tooltip="Settings" isActive={pathname.startsWith("/settings")}> 
                                 <Settings />
                                 <span>Settings</span>
                             </SidebarMenuButton>
